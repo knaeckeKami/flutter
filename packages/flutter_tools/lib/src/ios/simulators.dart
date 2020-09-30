@@ -561,7 +561,7 @@ class IOSSimulator extends Device {
     final realName =
         buildResult.xcodeBuildExecution?.buildSettings["FULL_PRODUCT_NAME"];
 
-    globals.printError("built app with $realId/$realName");
+    globals.printError("built app with $realId/$realName (old: ${app.id}/${app.name}");
 
     app = BuildableIOSApp(app.project, realId, realName);
 
