@@ -886,15 +886,16 @@ class DebuggingOptions {
 }
 
 class LaunchResult {
-  LaunchResult.succeeded({ this.observatoryUri }) : started = true;
+  LaunchResult.succeeded({ this.observatoryUri, this.package }) : started = true;
   LaunchResult.failed()
     : started = false,
-      observatoryUri = null;
+      observatoryUri = null, package = null;
 
   bool get hasObservatory => observatoryUri != null;
 
   final bool started;
   final Uri observatoryUri;
+  final ApplicationPackage package;
 
   @override
   String toString() {

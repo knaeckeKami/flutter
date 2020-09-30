@@ -221,6 +221,7 @@ class SimControl {
         ],
         throwOnError: true,
       );
+      globals.printError("launched: ${result.stdout}");
     } on ProcessException catch (exception) {
       throwToolExit(
           'Unable to launch $appIdentifier on $deviceId:\n$exception');
@@ -515,7 +516,7 @@ class IOSSimulator extends Device {
     try {
       final Uri deviceUri = await observatoryDiscovery.uri;
       if (deviceUri != null) {
-        return LaunchResult.succeeded(observatoryUri: deviceUri);
+        return LaunchResult.succeeded(observatoryUri: deviceUri, package: package);
       }
       globals.printError(
         'Error waiting for a debug connection: '

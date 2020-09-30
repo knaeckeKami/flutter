@@ -567,6 +567,11 @@ class FlutterDevice {
       await stopEchoingDeviceLog();
       return 2;
     }
+
+    if(result.package != null){
+      package = result.package;
+    }
+
     if (result.hasObservatory) {
       observatoryUris = Stream<Uri>
         .value(result.observatoryUri)
