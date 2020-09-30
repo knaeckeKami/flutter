@@ -706,6 +706,7 @@ class FlutterDevice {
       'Syncing files to device ${device.name}...',
       timeout: timeoutConfiguration.fastOperation,
     );
+    globals.printError("$mainUri $target");
     UpdateFSReport report;
     bool fastReassemble = false;
     try {
