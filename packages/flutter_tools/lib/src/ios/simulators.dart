@@ -442,6 +442,7 @@ class IOSSimulator extends Device {
       try {
         package = await _setupUpdatedApplicationBundle(
             package as BuildableIOSApp, debuggingOptions.buildInfo, mainPath);
+        globals.printError("built ${package.id} ${package.name}");
 
       } on ToolExit catch (e) {
         globals.printError(e.message);
