@@ -395,6 +395,9 @@ class IOSSimulator extends Device {
     bool ipv6 = false,
     String userIdentifier,
   }) async {
+    globals.printError("startApp, prebuilt $prebuiltApplication");
+
+    globals.printError("${debuggingOptions.buildInfo?.flavor } ${debuggingOptions.buildInfo?.mode}");
     if (!prebuiltApplication && package is BuildableIOSApp) {
       globals.printTrace('Building ${package.name} for $id.');
 
