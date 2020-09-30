@@ -563,14 +563,14 @@ class IOSSimulator extends Device {
     final Directory bundle = globals.fs.directory(app.simulatorBundlePath);
     final bool bundleExists = bundle.existsSync();
     if (!bundleExists) {
-      globals.printError(
-          buildResult.xcodeBuildExecution?.buildSettings.toString());
       throwToolExit(
           'Could not find the built application bundle at ${bundle.path} (from ${app.simulatorBundlePath}).');
     }
 
     // Step 3: Install the updated bundle to the simulator.
     await _simControl.install(id, globals.fs.path.absolute(bundle.path));
+
+    globals.printError("stack", stackTrace: StackTrace.current);
 
     return app;
   }
