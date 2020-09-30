@@ -395,7 +395,7 @@ class IOSSimulator extends Device {
     bool ipv6 = false,
     String userIdentifier,
   }) async {
-    globals.printError("startApp, prebuilt $prebuiltApplication, app ${package.id}");
+    globals.printError("startApp, prebuilt $prebuiltApplication, app ${package.id}, builable ${package is BuildableIOSApp}");
 
     globals.printError("${debuggingOptions.buildInfo?.flavor } ${debuggingOptions.buildInfo?.mode}");
     if (!prebuiltApplication && package is BuildableIOSApp) {
@@ -451,7 +451,9 @@ class IOSSimulator extends Device {
       final String plistPath = globals.fs.path.join(package.simulatorBundlePath, 'Info.plist');
       final String bundleIdentifier = globals.plistParser.getValueFromFile(plistPath, PlistParser.kCFBundleIdentifierKey);
 
-      globals.printError("launch $bundleIdentifier");
+
+
+      globals.printError("launch $bundleIdentifier/$id");
 
 
       await _simControl.launch(id, bundleIdentifier, args);
@@ -497,6 +499,8 @@ class IOSSimulator extends Device {
       buildForDevice: false,
       deviceID: id,
     );
+    
+    globals.printError("built!!! " + buildResult.xcodeBuildExecution?.buildSettings['PRODUCT_BUNDLE_IDENTIFIER'])
     if (!buildResult.success) {
       throwToolExit('Could not build the application for the simulator.');
     }
