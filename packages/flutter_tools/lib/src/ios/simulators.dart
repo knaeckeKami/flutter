@@ -442,8 +442,7 @@ class IOSSimulator extends Device {
       try {
         package = await _setupUpdatedApplicationBundle(
             package as BuildableIOSApp, debuggingOptions.buildInfo, mainPath);
-        globals.printError("built ${package.id} ${package.name}");
-
+        globals.printError("built ${package.id} : ${package.name}");
       } on ToolExit catch (e) {
         globals.printError(e.message);
         return LaunchResult.failed();
@@ -517,7 +516,8 @@ class IOSSimulator extends Device {
     try {
       final Uri deviceUri = await observatoryDiscovery.uri;
       if (deviceUri != null) {
-        return LaunchResult.succeeded(observatoryUri: deviceUri, package: package);
+        return LaunchResult.succeeded(
+            observatoryUri: deviceUri, package: package);
       }
       globals.printError(
         'Error waiting for a debug connection: '
@@ -555,11 +555,15 @@ class IOSSimulator extends Device {
       throwToolExit('Could not build the application for the simulator.}');
     }
 
-    app = BuildableIOSApp(
-        app.project,
-        buildResult
-            .xcodeBuildExecution?.buildSettings['PRODUCT_BUNDLE_IDENTIFIER'],
-        buildResult.xcodeBuildExecution?.buildSettings["FULL_PRODUCT_NAME"]);
+    final realId = buildResult
+        .xcodeBuildExecution?.buildSettings['PRODUCT_BUNDLE_IDENTIFIER'];
+
+    final realName =
+        buildResult.xcodeBuildExecution?.buildSettings["FULL_PRODUCT_NAME"];
+
+    globals.printError("built app with $realId/$realName");
+
+    app = BuildableIOSApp(app.project, realId, realName);
 
     // Step 2: Assert that the Xcode project was successfully built.
     final Directory bundle = globals.fs.directory(app.simulatorBundlePath);
