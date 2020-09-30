@@ -398,11 +398,15 @@ class IOSSimulator extends Device {
     globals.printError("startApp, prebuilt $prebuiltApplication, app ${package.id}, builable ${package is BuildableIOSApp}");
 
     globals.printError("${debuggingOptions.buildInfo?.flavor } ${debuggingOptions.buildInfo?.mode}");
+
+    String bundleIdentifier;
+
     if (!prebuiltApplication && package is BuildableIOSApp) {
       globals.printTrace('Building ${package.name} for $id.');
 
       try {
-        await _setupUpdatedApplicationBundle(package, debuggingOptions.buildInfo, mainPath);
+        final buildResult = await _setupUpdatedApplicationBundle(package, debuggingOptions.buildInfo, mainPath);
+        bundleIdentifier = buildResult.xcodeBuildExecution.buildSettings["PRODUCT_BUNDLE_IDENTIFIER"];
       } on ToolExit catch (e) {
         globals.printError(e.message);
         return LaunchResult.failed();
@@ -449,7 +453,7 @@ class IOSSimulator extends Device {
       // parsing the xcodeproj or configuration files.
       // See https://github.com/flutter/flutter/issues/31037 for more information.
       final String plistPath = globals.fs.path.join(package.simulatorBundlePath, 'Info.plist');
-      final String bundleIdentifier = globals.plistParser.getValueFromFile(plistPath, PlistParser.kCFBundleIdentifierKey);
+      bundleIdentifier ??= globals.plistParser.getValueFromFile(plistPath, PlistParser.kCFBundleIdentifierKey);
 
 
 
@@ -487,7 +491,7 @@ class IOSSimulator extends Device {
     return LaunchResult.failed();
   }
 
-  Future<void> _setupUpdatedApplicationBundle(covariant BuildableIOSApp app, BuildInfo buildInfo, String mainPath) async {
+  Future<XcodeBuildResult> _setupUpdatedApplicationBundle(covariant BuildableIOSApp app, BuildInfo buildInfo, String mainPath) async {
     // Step 1: Build the Xcode project.
     // The build mode for the simulator is always debug.
     assert(buildInfo.isDebug);
@@ -500,7 +504,7 @@ class IOSSimulator extends Device {
       deviceID: id,
     );
     
-    globals.printError("built!!! " + buildResult.xcodeBuildExecution?.buildSettings['PRODUCT_BUNDLE_IDENTIFIER'])
+    globals.printError("built!!! " + buildResult.xcodeBuildExecution?.buildSettings['PRODUCT_BUNDLE_IDENTIFIER']);
     if (!buildResult.success) {
       throwToolExit('Could not build the application for the simulator.');
     }
@@ -514,6 +518,8 @@ class IOSSimulator extends Device {
 
     // Step 3: Install the updated bundle to the simulator.
     await _simControl.install(id, globals.fs.path.absolute(bundle.path));
+
+    return buildResult;
   }
 
   @override
