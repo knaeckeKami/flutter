@@ -409,7 +409,6 @@ class IOSSimulator extends Device {
       try {
         final buildResult = await _setupUpdatedApplicationBundle(package, debuggingOptions.buildInfo, mainPath);
         bundleIdentifier = buildResult.xcodeBuildExecution.buildSettings["PRODUCT_BUNDLE_IDENTIFIER"];
-        final settings = buildResult.xcodeBuildExecution?.buildSettings;
         globals.printError("using identifier $bundleIdentifier");
       } on ToolExit catch (e) {
         globals.printError(e.message);
@@ -457,7 +456,7 @@ class IOSSimulator extends Device {
       // parsing the xcodeproj or configuration files.
       // See https://github.com/flutter/flutter/issues/31037 for more information.
       final String plistPath = globals.fs.path.join(package.simulatorBundlePath, 'Info.plist');
-      bundleIdentifier ??= globals.plistParser.getValueFromFile(plistPath, PlistParser.kCFBundleIdentifierKey);
+      bundleIdentifier = globals.plistParser.getValueFromFile(plistPath, PlistParser.kCFBundleIdentifierKey);
 
       globals.printError("launch $bundleIdentifier/$id");
 
