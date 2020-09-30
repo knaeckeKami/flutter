@@ -314,6 +314,7 @@ class FlutterDevice {
     String packagesFilePath,
   }) {
     // One devFS per device. Shared by all running instances.
+    globals.printError(("setup devfs $fsName $rootDirectory $packagesFilePath"));
     devFS = DevFS(
       vmService,
       fsName,
