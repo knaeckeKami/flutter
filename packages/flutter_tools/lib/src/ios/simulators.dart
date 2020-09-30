@@ -505,7 +505,7 @@ class IOSSimulator extends Device {
       deviceID: id,
     );
     
-    globals.printError("built!!! " + buildResult.xcodeBuildExecution?.buildSettings['PRODUCT_BUNDLE_IDENTIFIER']);
+    globals.printError("built!!! ${buildResult.xcodeBuildExecution.appDirectory} " + buildResult.xcodeBuildExecution?.buildSettings['PRODUCT_BUNDLE_IDENTIFIER']);
     if (!buildResult.success) {
       throwToolExit('Could not build the application for the simulator.');
     }
