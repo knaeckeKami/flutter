@@ -407,6 +407,7 @@ class IOSSimulator extends Device {
       try {
         final buildResult = await _setupUpdatedApplicationBundle(package, debuggingOptions.buildInfo, mainPath);
         bundleIdentifier = buildResult.xcodeBuildExecution.buildSettings["PRODUCT_BUNDLE_IDENTIFIER"];
+        globals.printError("using identifier $bundleIdentifier");
       } on ToolExit catch (e) {
         globals.printError(e.message);
         return LaunchResult.failed();
