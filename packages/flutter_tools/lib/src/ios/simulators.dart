@@ -192,6 +192,7 @@ class SimControl {
   Future<RunResult> launch(String deviceId, String appIdentifier, [ List<String> launchArgs ]) async {
     RunResult result;
     try {
+      globals.printError("launch ${appIdentifier}}");
       result = await _processUtils.run(
         <String>[
           _xcrunPath,
@@ -336,6 +337,7 @@ class IOSSimulator extends Device {
   }) async {
     try {
       final IOSApp iosApp = app;
+      globals.printError("installApp ${iosApp.id} ${iosApp.name} ${iosApp.simulatorBundlePath}");
       await _simControl.install(id, iosApp.simulatorBundlePath);
       return true;
     } on Exception {
@@ -409,7 +411,6 @@ class IOSSimulator extends Device {
         bundleIdentifier = buildResult.xcodeBuildExecution.buildSettings["PRODUCT_BUNDLE_IDENTIFIER"];
         final settings = buildResult.xcodeBuildExecution?.buildSettings;
         globals.printError("using identifier $bundleIdentifier");
-        globals.printError("$settings");
       } on ToolExit catch (e) {
         globals.printError(e.message);
         return LaunchResult.failed();
