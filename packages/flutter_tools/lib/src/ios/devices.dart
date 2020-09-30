@@ -315,6 +315,10 @@ class IOSDevice extends Device {
   }) async {
     String packageId;
 
+    _logger.printError("startApp, prebuilt $prebuiltApplication");
+
+    _logger.printError("${debuggingOptions.buildInfo?.flavor } ${debuggingOptions.buildInfo?.mode}");
+
     if (!prebuiltApplication) {
       // TODO(chinmaygarde): Use mainPath, route.
       _logger.printTrace('Building ${package.name} for $id');
