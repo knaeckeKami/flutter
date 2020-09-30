@@ -565,6 +565,8 @@ class IOSSimulator extends Device {
 
     app = BuildableIOSApp(app.project, realId, realName);
 
+    globals.printError("new app object ${app.id}/${app.name}");
+
     // Step 2: Assert that the Xcode project was successfully built.
     final Directory bundle = globals.fs.directory(app.simulatorBundlePath);
     final bool bundleExists = bundle.existsSync();
