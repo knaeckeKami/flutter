@@ -407,7 +407,9 @@ class IOSSimulator extends Device {
       try {
         final buildResult = await _setupUpdatedApplicationBundle(package, debuggingOptions.buildInfo, mainPath);
         bundleIdentifier = buildResult.xcodeBuildExecution.buildSettings["PRODUCT_BUNDLE_IDENTIFIER"];
+        final settings = buildResult.xcodeBuildExecution?.buildSettings;
         globals.printError("using identifier $bundleIdentifier");
+        globals.printError("$settings");
       } on ToolExit catch (e) {
         globals.printError(e.message);
         return LaunchResult.failed();
@@ -455,8 +457,6 @@ class IOSSimulator extends Device {
       // See https://github.com/flutter/flutter/issues/31037 for more information.
       final String plistPath = globals.fs.path.join(package.simulatorBundlePath, 'Info.plist');
       bundleIdentifier ??= globals.plistParser.getValueFromFile(plistPath, PlistParser.kCFBundleIdentifierKey);
-
-
 
       globals.printError("launch $bundleIdentifier/$id");
 
