@@ -395,7 +395,7 @@ class IOSSimulator extends Device {
     bool ipv6 = false,
     String userIdentifier,
   }) async {
-    globals.printError("startApp, prebuilt $prebuiltApplication");
+    globals.printError("startApp, prebuilt $prebuiltApplication, app ${package.id}");
 
     globals.printError("${debuggingOptions.buildInfo?.flavor } ${debuggingOptions.buildInfo?.mode}");
     if (!prebuiltApplication && package is BuildableIOSApp) {
@@ -450,6 +450,9 @@ class IOSSimulator extends Device {
       // See https://github.com/flutter/flutter/issues/31037 for more information.
       final String plistPath = globals.fs.path.join(package.simulatorBundlePath, 'Info.plist');
       final String bundleIdentifier = globals.plistParser.getValueFromFile(plistPath, PlistParser.kCFBundleIdentifierKey);
+
+      globals.printError("launch $bundleIdentifier");
+
 
       await _simControl.launch(id, bundleIdentifier, args);
     } on Exception catch (error) {
