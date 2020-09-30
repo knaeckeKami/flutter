@@ -569,6 +569,7 @@ class FlutterDevice {
     }
 
     if(result.package != null){
+      globals.printError('using new package ${package.name}');
       package = result.package;
     }
 
@@ -643,6 +644,10 @@ class FlutterDevice {
       globals.printError('Error running application on ${device.name}.');
       await stopEchoingDeviceLog();
       return 2;
+    }
+    if(result.package != null){
+      globals.printError('using new package ${package.name}');
+      package = result.package;
     }
     if (result.hasObservatory) {
       observatoryUris = Stream<Uri>
