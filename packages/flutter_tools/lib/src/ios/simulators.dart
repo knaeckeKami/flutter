@@ -505,10 +505,14 @@ class IOSSimulator extends Device {
       deviceID: id,
     );
     
-    globals.printError("built!!! ${buildResult.xcodeBuildExecution.appDirectory} " + buildResult.xcodeBuildExecution?.buildSettings['PRODUCT_BUNDLE_IDENTIFIER']);
+    globals.printError("built!!! name: ${app.name} real id: " + buildResult.xcodeBuildExecution?.buildSettings['PRODUCT_BUNDLE_IDENTIFIER']);
     if (!buildResult.success) {
       throwToolExit('Could not build the application for the simulator.');
     }
+
+
+
+    app = BuildableIOSApp(app.project,buildResult.xcodeBuildExecution?.buildSettings['PRODUCT_BUNDLE_IDENTIFIER'], app.name );
 
     // Step 2: Assert that the Xcode project was successfully built.
     final Directory bundle = globals.fs.directory(app.simulatorBundlePath);
