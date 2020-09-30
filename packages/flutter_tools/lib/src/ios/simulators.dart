@@ -476,6 +476,8 @@ class IOSSimulator extends Device {
       ],
     ];
 
+    globals.printError("just checking ${package.id} : ${package.name}");
+
     ProtocolDiscovery observatoryDiscovery;
     if (debuggingOptions.debuggingEnabled) {
       observatoryDiscovery = ProtocolDiscovery.observatory(
@@ -505,6 +507,9 @@ class IOSSimulator extends Device {
       return LaunchResult.failed();
     }
 
+    globals.printError("just checking ${package.id} : ${package.name}");
+
+
     if (!debuggingOptions.debuggingEnabled) {
       return LaunchResult.succeeded();
     }
@@ -516,6 +521,7 @@ class IOSSimulator extends Device {
     try {
       final Uri deviceUri = await observatoryDiscovery.uri;
       if (deviceUri != null) {
+        globals.printError("returning ${package.id} : ${package.name}");
         return LaunchResult.succeeded(
             observatoryUri: deviceUri, package: package);
       }

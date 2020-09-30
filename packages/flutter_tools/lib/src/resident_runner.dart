@@ -569,8 +569,8 @@ class FlutterDevice {
     }
 
     if(result.package != null){
-      globals.printError('using new package ${package.name}');
       package = result.package;
+      globals.printError('using new package ${package.name}');
     }
 
     if (result.hasObservatory) {
