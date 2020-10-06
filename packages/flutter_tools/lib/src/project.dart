@@ -455,9 +455,12 @@ class IosProject extends FlutterProjectPlatform implements XcodeBasedProject {
     final Map<String, String> allBuildSettings = await buildSettingsForBuildInfo(buildInfo);
     if (allBuildSettings != null) {
       if (fromPlist != null) {
+        globals.printError("got build settings, got fromPlist, substitute!");
         // Perform variable substitution using build settings.
         return xcode.substituteXcodeVariables(fromPlist, allBuildSettings);
       }
+      globals.printError("try reading from allBuildSettings : ${ allBuildSettings['PRODUCT_BUNDLE_IDENTIFIER']}");
+
       return allBuildSettings['PRODUCT_BUNDLE_IDENTIFIER'];
     }
 
@@ -468,6 +471,8 @@ class IosProject extends FlutterProjectPlatform implements XcodeBasedProject {
     // only used for display purposes and to regenerate organization names, so
     // best-effort is probably fine.
     final String fromPbxproj = _firstMatchInFile(xcodeProjectInfoFile, _productBundleIdPattern)?.group(2);
+    globals.printError("got first match in file $fromPbxproj");
+
     if (fromPbxproj != null && (fromPlist == null || fromPlist == _productBundleIdVariable)) {
       return fromPbxproj;
     }

@@ -430,7 +430,7 @@ Map<String, String> parseXcodeBuildSettings(String showBuildSettingsOutput) {
       settings[match[1]] = match[2];
     }
   }
-  globals.printError("parsted build settings as $settings");
+  globals.printError("parsed build settings as $settings");
   return settings;
 }
 
