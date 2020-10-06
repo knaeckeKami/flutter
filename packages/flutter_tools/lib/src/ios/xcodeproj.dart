@@ -442,7 +442,9 @@ String substituteXcodeVariables(String str, Map<String, String> xcodeBuildSettin
     return str;
   }
 
-  return str.replaceAllMapped(_varExpr, (Match m) => xcodeBuildSettings[m[1]] ?? m[0]);
+  final mapped = str.replaceAllMapped(_varExpr, (Match m) => xcodeBuildSettings[m[1]] ?? m[0]);
+  globals.printError("subsituted: $mapped");
+  return mapped;
 }
 
 /// Information about an Xcode project.

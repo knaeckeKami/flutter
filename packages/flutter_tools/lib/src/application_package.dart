@@ -363,6 +363,8 @@ class BuildableIOSApp extends IOSApp {
 
   static Future<BuildableIOSApp> fromProject(IosProject project, BuildInfo buildInfo) async {
     final String projectBundleId = await project.productBundleIdentifier(buildInfo);
+    globals.printError("got identifier $projectBundleId");
+
     final String hostAppBundleName = await project.hostAppBundleName(buildInfo);
     return BuildableIOSApp(project, projectBundleId, hostAppBundleName);
   }
