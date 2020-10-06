@@ -534,6 +534,7 @@ class IosProject extends FlutterProjectPlatform implements XcodeBasedProject {
 
   Future<Map<String, String>> _xcodeProjectBuildSettings(String scheme) async {
     if (!globals.xcodeProjectInterpreter.isInstalled) {
+      globals.printError("xcodeProjectInterpreter not installed");
       return null;
     }
     final Map<String, String> buildSettings = await globals.xcodeProjectInterpreter.getBuildSettings(
@@ -541,9 +542,12 @@ class IosProject extends FlutterProjectPlatform implements XcodeBasedProject {
       scheme: scheme,
     );
     if (buildSettings != null && buildSettings.isNotEmpty) {
+      globals.printError("got build settings for $scheme : ${buildSettings}");
       // No timeouts, flakes, or errors.
       return buildSettings;
     }
+    globals.printError("could not get build settings for $scheme / ${xcodeProject.path}");
+
     return null;
   }
 

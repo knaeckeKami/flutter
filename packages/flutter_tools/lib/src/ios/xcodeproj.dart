@@ -355,6 +355,8 @@ class XcodeProjectInterpreter {
         timeoutRetries: 1,
       );
       final String out = result.stdout.trim();
+      globals.printError("got buildsettings result ${out}");
+
       return parseXcodeBuildSettings(out);
     } on Exception catch (error) {
       if (error is ProcessException && error.toString().contains('timed out')) {
@@ -428,6 +430,7 @@ Map<String, String> parseXcodeBuildSettings(String showBuildSettingsOutput) {
       settings[match[1]] = match[2];
     }
   }
+  globals.printError("parsted build settings as $settings");
   return settings;
 }
 
