@@ -324,6 +324,7 @@ class XcodeProjectInterpreter {
   Future<Map<String, String>> getBuildSettings(
     String projectPath, {
     String scheme,
+    String config,
     Duration timeout = const Duration(minutes: 1),
   }) async {
     final Status status = Status.withSpinner(
@@ -338,6 +339,8 @@ class XcodeProjectInterpreter {
       _fileSystem.path.absolute(projectPath),
       if (scheme != null)
         ...<String>['-scheme', scheme],
+      if (config != null)
+        ...<String>['-configuration', config],
       '-showBuildSettings',
       ...environmentVariablesAsXcodeBuildSettings(_platform)
     ];
