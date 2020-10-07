@@ -445,7 +445,7 @@ String substituteXcodeVariables(String str, Map<String, String> xcodeBuildSettin
   final mapped = str.replaceAllMapped(_varExpr, (Match m) {
 
 
-    globals.printError("match: ${m[0]} ${m[1]} ${m[2]}" );
+    globals.printError("match: ${m[0]} ${m[1]}" );
 
     return xcodeBuildSettings[m[1]] ?? m[0];
   });
