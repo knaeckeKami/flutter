@@ -395,6 +395,7 @@ class FakeXcodeProjectInterpreter implements XcodeProjectInterpreter {
   Future<Map<String, String>> getBuildSettings(
     String projectPath, {
     String scheme,
+    String config,
     Duration timeout = const Duration(minutes: 1),
   }) async {
     return <String, String>{};
