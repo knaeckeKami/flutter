@@ -522,7 +522,9 @@ class IosProject extends FlutterProjectPlatform implements XcodeBasedProject {
 
     final String scheme = info.schemeFor(buildInfo);
 
-    globals.printError("using scheme $scheme");
+    final config = info.buildConfigurationFor(buildInfo, scheme);
+
+    globals.printError("using scheme $scheme / $config");
     if (scheme == null) {
       info.reportFlavorNotFoundAndExit();
     }
