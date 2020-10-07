@@ -521,6 +521,8 @@ class IosProject extends FlutterProjectPlatform implements XcodeBasedProject {
     }
 
     final String scheme = info.schemeFor(buildInfo);
+
+    globals.printError("using scheme $scheme");
     if (scheme == null) {
       info.reportFlavorNotFoundAndExit();
     }
@@ -547,7 +549,7 @@ class IosProject extends FlutterProjectPlatform implements XcodeBasedProject {
       scheme: scheme,
     );
     if (buildSettings != null && buildSettings.isNotEmpty) {
-      globals.printError("got build settings for $scheme : ${buildSettings}");
+      globals.printError("got build settings for $scheme : ${buildSettings?.toString()?.substring(0, 20)}");
       // No timeouts, flakes, or errors.
       return buildSettings;
     }
